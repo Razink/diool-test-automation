@@ -10,8 +10,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {"pretty"},
         features = "src/test/resources/features",
-        tags = "@TEST_DFQA-60"
+        tags = "@TEST_DFQA-64 or @TEST_DFQA-60"
 )
 public class CucumberTestSuite {
-
 }

@@ -31,6 +31,7 @@ public class TransfersEvents extends PageObject {
             contactTable.waitUntilVisible().click();
         }
 
+
         System.out.println("Close ChatBox");
         WebElementFacade close = find(By.xpath(TransfersElements.closePopup));
         close.waitUntilVisible();
@@ -71,7 +72,7 @@ public class TransfersEvents extends PageObject {
             robot.keyPress(KeyEvent.VK_SUBTRACT);
             robot.keyRelease(KeyEvent.VK_SUBTRACT);
             robot.keyRelease(KeyEvent.VK_CONTROL);}
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         System.out.println("Click on send button");
         WebElementFacade send = find(By.xpath(TransfersElements.sendBtn));
         send.waitUntilVisible();
@@ -132,6 +133,16 @@ public class TransfersEvents extends PageObject {
         WebElementFacade sennd = find(By.xpath(TransfersElements.send2Btn));
         sennd.waitUntilVisible();
         executor.executeScript("arguments[0].click();",sennd);
+
+        System.out.println("Check if the same amount");
+        WebElementFacade sameAmount = find(TransfersElements.sendAgainButton);
+        if(sameAmount.isPresent()){
+            executor.executeScript("arguments[0].click();",sameAmount);
+            Thread.sleep(1000);
+        } else {
+            System.out.println("it's a new amount");
+            Thread.sleep(1000);
+        }
 
         if (language.equals("FR")){
             System.out.println("Verify the Payment was successfully passed : Paiement réussi");

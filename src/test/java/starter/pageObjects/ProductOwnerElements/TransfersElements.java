@@ -17,6 +17,6 @@ public interface TransfersElements {
     String send2Btn = "//button[@class='md-raised md-primary md-button md-ink-ripple md-diool-theme']";
     String successfulPayVerif = "/html/body//md-dialog/md-dialog-content/section/div[1]";
     String okButtonConfirm = "//button[@class='md-raised md-primary md-button md-ink-ripple md-diool-theme']";
-    String sendAgainButton = "/html/body/div[4]/md-dialog/md-dialog-actions/button[2]";
+    String sendAgainButton = "//span[contains(text(),'Send again')]/../../button[2]";
 
 }

@@ -204,12 +204,6 @@ public class HistoryEvents extends PageObject {
         depsitMenu.waitUntilVisible();
         executor.executeScript("arguments[0].click()",depsitMenu);
 
-        System.out.println("Zoom Out");
-        for (int i = 0; i < 4; i++) {
-            robot.keyPress(KeyEvent.VK_CONTROL);
-            robot.keyPress(KeyEvent.VK_SUBTRACT);
-            robot.keyRelease(KeyEvent.VK_SUBTRACT);
-            robot.keyRelease(KeyEvent.VK_CONTROL);}
 
         if (transType.equals("Diool Transfer")){
             System.out.println("Check Transaction Type: Diool Transfer");
@@ -316,7 +310,7 @@ public class HistoryEvents extends PageObject {
     }
 
 
-    public void verifyLedgerViewRevenue(Actor actor, String language,String transType) throws InterruptedException, ParseException {
+    public void verifyLedgerViewRevenue(Actor actor, String language,String transType) throws ParseException {
 
         JavascriptExecutor executor =(JavascriptExecutor) getDriver();
 

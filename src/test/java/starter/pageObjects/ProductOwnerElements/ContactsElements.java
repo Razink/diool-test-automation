@@ -6,15 +6,14 @@ import net.serenitybdd.core.pages.WebElementFacade;
 
 public interface ContactsElements {
 //Navigate to contact tab
-    String contactsTab = "/html/body/div[1]/div/md-sidenav[1]/ms-navigation/ul/li[3]/div";
+    String contactsTab = "/html/body/div[1]/div/md-sidenav[1]/ms-navigation/ul/li[3]/div/a/span[contains(text(),'Contacts')]";
     // add new contact
     String addContactBtn = "/html/body/div[1]/div/div/md-content/div[1]/contacts/div/card/ms-widget/ms-widget-front/ng-transclude/md-content/div[1]/button";
     String inputFirstName = "/html/body/div[1]/div/md-sidenav[2]/div[1]/contact-form/form/div[2]/section/div[1]/div[1]/input";
     String inputLastName = "/html/body/div[1]/div/md-sidenav[2]/div[1]/contact-form/form/div[2]/section/div[1]/div[2]/input";
     String selectClient = "//span[contains(text(),'Client')]/../../div[1]";
     String selectEmployee = "/html/body/div[1]/div/md-sidenav[2]/div[1]/contact-form/form/div[2]/section/div[4]/md-radio-group/div/md-radio-button[1]";
-//    @FindBy(xpath = "/html/body/div[1]/div/md-sidenav[2]/div[1]/contact-form/form/div[2]/section/div[4]/md-radio-group/div/md-radio-button[1]");
-//    WebElementFacade selectEmployee;
+
 
     String paymentMethodBtn = "/html/body/div[1]/div/md-sidenav[2]/div[1]/contact-form/form/div[3]/button[1]";
     String selectDiool = "/html/body/div[1]/div/md-sidenav[2]/div[1]/contact-form/form/div[2]/contacts-payment-method/accordion[1]/div/div[1]";
@@ -37,4 +36,9 @@ public interface ContactsElements {
     String toScroll ="/html/body/div[1]/div/md-sidenav[2]/div[1]/contact-form/form/div[2]/section/div[1]/div[2]/div[1]/label";
 
 
+    //Delete Contact
+
+    String selectDelete = "//span[contains(text(),'Delete') or contains(text(),\"Supprimer\")]/../../button";
+    String okConfirmation = "//span[contains(text(),'OK')]/../../button[2]";
+    String checkDelete = "//span[contains(text(),'roland.thecashier@email.com')]/../../td[1]/span[contains(text(),'Contact Diool')]";
 }

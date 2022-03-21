@@ -210,6 +210,17 @@ public class ContactsEvents extends PageObject {
         WebElementFacade sennd = find(By.xpath(TransfersElements.send2Btn));
         sennd.waitUntilVisible();
         executor.executeScript("arguments[0].click();",sennd);
+        Thread.sleep(1000);
+
+        System.out.println("Check if the same amount");
+        WebElementFacade sameAmount = find(TransfersElements.sendAgainButton);
+        if(sameAmount.isPresent()){
+            executor.executeScript("arguments[0].click();",sameAmount);
+            Thread.sleep(1000);
+        } else {
+            System.out.println("it's a new amount");
+            Thread.sleep(1000);
+        }
 
         if (language.equals("FR")){
             System.out.println("Verify the Payment was successfully passed : Paiement réussi");
@@ -219,7 +230,6 @@ public class ContactsEvents extends PageObject {
             actor.attemptsTo(
                     Ensure.that(checkTransfStatusString).isEqualToIgnoringCase("Paiement réussi")
             );
-
 
         } else {
             System.out.println("Verify the Payment was successfully passed : Successful payment");
@@ -235,6 +245,81 @@ public class ContactsEvents extends PageObject {
         WebElementFacade okSuccess = find(By.xpath(TransfersElements.okButtonConfirm));
         okSuccess.waitUntilVisible();
         executor.executeScript("arguments[0].click()",okSuccess);
+
+    }
+
+    public void deleteContact(Actor actor, String profile) throws InterruptedException {
+
+        JavascriptExecutor executor =(JavascriptExecutor)getDriver();
+        Thread.sleep(2000);
+
+        System.out.println("Enter on Contacts table");
+        WebElementFacade contactTable = find(By.xpath(ContactsElements.contactsTab));
+        contactTable.waitUntilVisible();
+        executor.executeScript("arguments[0].click();",contactTable);
+
+        System.out.println("Close ChatBox if exist");
+        Thread.sleep(2000);
+        WebElementFacade close = find(By.xpath(TransfersElements.closePopup));
+        if(close.isPresent()){
+            executor.executeScript("arguments[0].click();", close);
+            Thread.sleep(1000);
+        } else {
+            System.out.println("the chatbox already not displayed");
+        }
+
+        if (profile.equals("Cashier")){
+            System.out.println("Search for the contact Contact Diool : Roland who was added recently");
+            Thread.sleep(2000);
+            WebElementFacade search = find(By.xpath(TransfersElements.inputSearch));
+            search.waitUntilVisible();
+            actor.attemptsTo(
+                    Enter.theValue("Contact Diool")
+                            .into(search)
+                            .thenHit(Keys.ENTER)
+            );
+
+
+        } else if (profile.equals("Agent")){
+            System.out.println("Search for the Bank contact who was added recently");
+            WebElementFacade search = find(By.xpath(ContactsElements.inputSearch));
+            search.waitUntilVisible();
+            actor.attemptsTo(
+                    Enter.theValue("Contact Diool")
+                            .into(search)
+                            .thenHit(Keys.ENTER)
+            );
+        } else {
+
+            System.out.println("Search for the Bank contact who was added recently");
+            WebElementFacade search = find(By.xpath(ContactsElements.inputSearch));
+            search.waitUntilVisible();
+            actor.attemptsTo(
+                    Enter.theValue("Contact Bank")
+                            .into(search)
+                            .thenHit(Keys.ENTER));
+
+        }
+
+        System.out.println("Click option");
+        WebElementFacade optionMenu = find(By.xpath(ContactsElements.selectOptions));
+        element(optionMenu).waitUntilVisible();
+        executor.executeScript("arguments[0].click();",optionMenu);
+
+
+        System.out.println("Select Delete");
+        WebElementFacade deleteContact = find(By.xpath(ContactsElements.selectDelete));
+        deleteContact.waitUntilVisible();
+        executor.executeScript("arguments[0].click();",deleteContact);
+
+        System.out.println("Select Ok to confirm deleting");
+        WebElementFacade clickOK = find(By.xpath(ContactsElements.okConfirmation));
+        clickOK.waitUntilVisible();
+        executor.executeScript("arguments[0].click();",clickOK);
+
+        System.out.println("check Contact was successfully deleted");
+        WebElementFacade checkContactdelete = find(ContactsElements.checkDelete);
+        checkContactdelete.waitUntilNotVisible();
 
     }
 
