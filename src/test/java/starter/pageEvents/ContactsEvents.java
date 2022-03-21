@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 public class ContactsEvents extends PageObject {
 
 
-    public void AddNewContact(Actor actor, String paymentMethod) throws InterruptedException, AWTException {
+    public void AddNewContact(Actor actor, String paymentMethod, String profile) throws InterruptedException, AWTException {
 
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         Robot robot = new Robot();
@@ -70,14 +70,24 @@ public class ContactsEvents extends PageObject {
             clickDioolMethod.waitUntilVisible();
             executor.executeScript("arguments[0].click();",clickDioolMethod);
 
-            System.out.println("enter Diool email : roland.thecashier@email.com");
-            WebElementFacade dioolEmail = find(By.xpath(ContactsElements.inputDioolEmail));
-            dioolEmail.waitUntilVisible();
-            actor.attemptsTo(
-                    Enter.theValue("roland.thecashier@email.com")
-                            .into(dioolEmail)
-            );
 
+            if(profile.equals("Agent")) {
+                System.out.println("enter Diool email : john.theagent@email.com");
+                WebElementFacade dioolEmail = find(By.xpath(ContactsElements.inputDioolEmail));
+                dioolEmail.waitUntilVisible();
+                actor.attemptsTo(
+                        Enter.theValue("john.theagent@email.com")
+                                .into(dioolEmail)
+                );
+            }else{
+                System.out.println("enter Diool email : roland.thecashier@email.com");
+                WebElementFacade dioolEmail = find(By.xpath(ContactsElements.inputDioolEmail));
+                dioolEmail.waitUntilVisible();
+                actor.attemptsTo(
+                        Enter.theValue("roland.thecashier@email.com")
+                                .into(dioolEmail)
+                );
+            }
             System.out.println("click on add payment option");
             Thread.sleep(2000);
             WebElementFacade addPayMethOptionButton = find(By.xpath(ContactsElements.addPMBtn));
@@ -138,10 +148,10 @@ public class ContactsEvents extends PageObject {
         executor.executeScript("arguments[0].click();",closeBtn);
     }
 
-    public void sendMoneyAdressBook(Actor actor, String paymentMeth,String language) throws InterruptedException {
+    public void sendMoneyAdressBook(Actor actor, String profile,String language) throws InterruptedException {
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
 
-        if (paymentMeth.equals("Diool")){
+        if (profile.equals("Agent")) {
             System.out.println("Search for the diool contact who was added recently");
             Thread.sleep(2000);
             WebElementFacade search = find(By.xpath(TransfersElements.inputSearch));
@@ -153,6 +163,15 @@ public class ContactsEvents extends PageObject {
             );
 
 
+        } else if (profile.equals("Cashier")) {
+            System.out.println("Search for the Bank contact who was added recently");
+            WebElementFacade search = find(By.xpath(ContactsElements.inputSearch));
+            search.waitUntilVisible();
+            actor.attemptsTo(
+                    Enter.theValue("Contact Diool")
+                            .into(search)
+                            .thenHit(Keys.ENTER)
+            );
         } else {
             System.out.println("Search for the Bank contact who was added recently");
             WebElementFacade search = find(By.xpath(ContactsElements.inputSearch));
@@ -167,45 +186,71 @@ public class ContactsEvents extends PageObject {
         System.out.println("Click option");
         WebElementFacade optionMenu = find(By.xpath(ContactsElements.selectOptions));
         element(optionMenu).waitUntilVisible();
-        executor.executeScript("arguments[0].click();",optionMenu);
+        executor.executeScript("arguments[0].click();", optionMenu);
 
         System.out.println("Select Send money");
         WebElementFacade sendMoney = find(By.xpath(ContactsElements.selectSendMoney));
         sendMoney.waitUntilVisible();
-        executor.executeScript("arguments[0].click();",sendMoney);
+        executor.executeScript("arguments[0].click();", sendMoney);
 
         System.out.println("Enter 1000 XAF as Amount");
         Thread.sleep(3000);
-        WebElementFacade inputAmount= find(By.xpath(TransfersElements.inputAmount));
+        WebElementFacade inputAmount = find(By.xpath(TransfersElements.inputAmount));
         inputAmount.waitUntilVisible();
         actor.attemptsTo(
                 Enter.theValue("1000")
                         .into(inputAmount)
                         .thenHit(Keys.ENTER)
         );
+        if (profile.equals("Agent")) {
+            System.out.println("Verify fees value = 12 XAF");
+            Thread.sleep(2000);
+            WebElementFacade feeVal = find(By.xpath(TransfersElements.checkFeesValue));
+            String feeValString = feeVal.getText();
+            actor.attemptsTo(
+                    Ensure.that(feeValString).isEqualToIgnoringCase("XAF 12")
+            );
+        } else if (profile.equals("Cashier")) {
+            System.out.println("Verify fees value = 0 XAF");
+            Thread.sleep(2000);
+            WebElementFacade feeVal = find(By.xpath(TransfersElements.checkFeesValue));
+            String feeValString = feeVal.getText();
+            actor.attemptsTo(
+                    Ensure.that(feeValString).isEqualToIgnoringCase("XAF 0")
+            );
 
-        System.out.println("Verify fees value = 0 XAF");
-        Thread.sleep(2000);
-        WebElementFacade feeVal = find(By.xpath(TransfersElements.checkFeesValue));
-        String feeValString = feeVal.getText();
-        actor.attemptsTo(
-                Ensure.that(feeValString).isEqualToIgnoringCase("XAF 0")
-        );
-
+        } else {
+            System.out.println("Verify fees value = 0 XAF");
+            Thread.sleep(2000);
+            WebElementFacade feeVal = find(By.xpath(TransfersElements.checkFeesValue));
+            String feeValString = feeVal.getText();
+            actor.attemptsTo(
+                    Ensure.that(feeValString).isEqualToIgnoringCase("XAF 0")
+            );
+        }
 
         System.out.println("Click on Next button");
         WebElementFacade next = find(By.xpath(TransfersElements.nextBtn));
         next.waitUntilVisible();
-        executor.executeScript("arguments[0].click();",next);
+        executor.executeScript("arguments[0].click();", next);
 
-        System.out.println("Check Total value = 1000 XAF");
+        if (profile.equals("Agent")){
+            System.out.println("Check Total value = 1012 XAF");
         Thread.sleep(2000);
         WebElementFacade totalval = find(By.xpath(TransfersElements.checkTotalValue));
         String totalvalString = totalval.getText();
         actor.attemptsTo(
-                Ensure.that(totalvalString).isEqualToIgnoringCase("1,000 XAF")
+                Ensure.that(totalvalString).isEqualToIgnoringCase("1,012 XAF")
         );
-
+    }else{
+            System.out.println("Check Total value = 1000 XAF");
+            Thread.sleep(2000);
+            WebElementFacade totalval = find(By.xpath(TransfersElements.checkTotalValue));
+            String totalvalString = totalval.getText();
+            actor.attemptsTo(
+                    Ensure.that(totalvalString).isEqualToIgnoringCase("1,000 XAF")
+            );
+    }
         System.out.println("Click on Send Button");
         WebElementFacade sennd = find(By.xpath(TransfersElements.send2Btn));
         sennd.waitUntilVisible();

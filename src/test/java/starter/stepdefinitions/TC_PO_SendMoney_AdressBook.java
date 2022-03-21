@@ -14,15 +14,15 @@ public class TC_PO_SendMoney_AdressBook {
     ContactsEvents adressBookEvent;
     ContactsEvents sendMoneyAdressBook;
     ContactsEvents deleteContact;
-    @And("{actor} add new contact with {string} as Payment method")
-    public void the_user_sends_money(Actor actor, String paymentMethod) throws InterruptedException, AWTException {
-        adressBookEvent.AddNewContact(actor, paymentMethod);
+    @And("{actor} add new contact with {string} as Payment method and for {string}")
+    public void the_user_sends_money(Actor actor, String paymentMethod, String profile) throws InterruptedException, AWTException {
+        adressBookEvent.AddNewContact(actor, paymentMethod, profile);
     }
 
 
     @And("{actor} sends money to {string} contact {string} version")
-    public void sends_money_AdressBook(Actor actor, String paymentMethod, String language) throws InterruptedException {
-        sendMoneyAdressBook.sendMoneyAdressBook(actor, paymentMethod,language);
+    public void sends_money_AdressBook(Actor actor, String profile, String language) throws InterruptedException {
+        sendMoneyAdressBook.sendMoneyAdressBook(actor, profile,language);
     }
 
     @And("{actor} delete the added contact {string}")

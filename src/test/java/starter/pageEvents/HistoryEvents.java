@@ -16,7 +16,6 @@ import java.text.ParseException;
 
 public class HistoryEvents extends PageObject {
 
-
     public void verifyTransactionView(Actor actor, String language, String transType) throws InterruptedException, AWTException {
         Robot robot = new Robot();
         JavascriptExecutor executor =(JavascriptExecutor)getDriver();
@@ -380,11 +379,10 @@ public class HistoryEvents extends PageObject {
     }
 
 
-    public BigDecimal calculBalanceDif (String B1, String B2) throws ParseException {
+    public BigDecimal calculBalanceDif (String B1, String B2) {
         BigDecimal f1 = new BigDecimal(B1.replace(",", ""));
         BigDecimal f2 = new BigDecimal(B2.replace(",", ""));
-        BigDecimal res = f1.subtract(f2) ;
-        return res;
+        return f1.subtract(f2);
     }
 
 
