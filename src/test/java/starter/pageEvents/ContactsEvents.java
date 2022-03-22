@@ -235,7 +235,7 @@ public class ContactsEvents extends PageObject {
         executor.executeScript("arguments[0].click();", next);
 
         if (profile.equals("Agent")){
-            System.out.println("Check Total value = 1012 XAF");
+            System.out.println("Verify Total value = 1012 XAF");
         Thread.sleep(2000);
         WebElementFacade totalval = find(By.xpath(TransfersElements.checkTotalValue));
         String totalvalString = totalval.getText();
